@@ -1,5 +1,6 @@
 ﻿using GraphQLDotNet.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GraphQLDotNet.Store
 {
@@ -7,5 +8,6 @@ namespace GraphQLDotNet.Store
     {
         IEnumerable<Item> GetItems();
         Item GetItemByBarcode(string barcode);
+        Task<Item> AddItemAsync(Item item);
     }
 }

@@ -2,6 +2,7 @@
 using GraphQLDotNet.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GraphQLDotNet.Store
 {
@@ -22,6 +23,13 @@ namespace GraphQLDotNet.Store
         public IEnumerable<Item> GetItems()
         {
             return _applicationDbContext.Items;
+        }
+
+        public async Task<Item> AddItemAsync(Item item)
+        {
+            var addedItem = await _applicationDbContext.Items.AddAsync(item);
+            await _applicationDbContext.SaveChangesAsync();
+            return addedItem.Entity;
         }
     }
 }

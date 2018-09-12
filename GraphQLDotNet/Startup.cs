@@ -4,6 +4,7 @@ using GraphQL.Types;
 using GraphQLDotNet.Data;
 using GraphQLDotNet.Middleware;
 using GraphQLDotNet.Store;
+using GraphQLDotNet.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -42,10 +43,13 @@ namespace GraphQLDotNet
             services.AddSingleton<IDocumentWriter, DocumentWriter>();
             services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
 
-            services.AddScoped<HelloWorldQuery>();
-            services.AddScoped<ISchema, HelloWorldSchema>();
+            services.AddScoped<InventoryQuery>();
+            services.AddScoped<InventoryMutation>();
+            services.AddScoped<ISchema, InventorySchema>();
 
             services.AddScoped<IDataStore, DataStore>();
+
+            services.AddScoped<ItemInputType>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
