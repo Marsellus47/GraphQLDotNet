@@ -30,7 +30,7 @@ namespace GraphQLDotNet
 
         public async Task InvokeAsync(HttpContext httpContext)
         {
-            if (httpContext.Request.Path.StartsWithSegments("/api/graphql/")
+            if (httpContext.Request.Path.StartsWithSegments("/api/graphql")
                 && string.Equals(httpContext.Request.Method, "POST", StringComparison.OrdinalIgnoreCase))
             {
                 using (var streamReader = new StreamReader(httpContext.Request.Body))
