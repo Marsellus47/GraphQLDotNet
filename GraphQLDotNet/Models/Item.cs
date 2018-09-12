@@ -1,4 +1,4 @@
-﻿namespace GraphQLDotNet
+﻿namespace GraphQLDotNet.Models
 {
     public class Item
     {

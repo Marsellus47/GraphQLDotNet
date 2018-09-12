@@ -1,10 +1,7 @@
 ﻿using GraphQL.Types;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using GraphQLDotNet.Models;
 
-namespace GraphQLDotNet
+namespace GraphQLDotNet.Types
 {
     public class ItemType: ObjectGraphType<Item>
     {
