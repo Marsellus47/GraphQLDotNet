@@ -7,12 +7,21 @@ namespace GraphQLDotNet
         public HelloWorldQuery()
         {
             Field<StringGraphType>(
-                name: "Hello",
-                resolve: context => "World");
+                name: "hello",
+                resolve: context => "world");
 
             Field<StringGraphType>(
-                name: "Howdy",
-                resolve: context => "Universe");
+                name: "howdy",
+                resolve: context => "universe");
+
+            Field<ItemType>(
+                "item",
+                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<StringGraphType>> { Name = "barcode" }),
+                resolve: context =>
+                {
+                    var barcode = context.GetArgument<string>("barcode");
+                    return new DataSource().GetItemByBarcode(barcode);
+                });
         }
     }
 }

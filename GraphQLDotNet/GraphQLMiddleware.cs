@@ -43,6 +43,7 @@ namespace GraphQLDotNet
                     {
                         doc.Schema = _schema;
                         doc.Query = request.Query;
+                        doc.Inputs = request.Variables.ToInputs();
                     }).ConfigureAwait(false);
 
                     var json = _writer.Write(result);
