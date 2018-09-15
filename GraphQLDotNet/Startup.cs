@@ -40,6 +40,8 @@ namespace GraphQLDotNet
             services.AddEntityFrameworkNpgsql()
                 .AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(Configuration["DefaultConnection"]));
 
+            services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
+
             services.AddSingleton<IDocumentWriter, DocumentWriter>();
             services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
 
@@ -49,7 +51,12 @@ namespace GraphQLDotNet
 
             services.AddScoped<IDataStore, DataStore>();
 
+            services.AddScoped<ItemType>();
             services.AddScoped<ItemInputType>();
+            services.AddScoped<CustomerType>();
+            services.AddScoped<CustomerInputType>();
+            services.AddScoped<OrderType>();
+            services.AddScoped<OrderInputType>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

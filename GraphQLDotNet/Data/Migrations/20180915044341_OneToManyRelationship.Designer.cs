@@ -3,15 +3,17 @@ using System;
 using GraphQLDotNet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace GraphQLDotNet.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180915044341_OneToManyRelationship")]
+    partial class OneToManyRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,11 +33,6 @@ namespace GraphQLDotNet.Data.Migrations
                     b.HasKey("CustomerId");
 
                     b.ToTable("Customers");
-
-                    b.HasData(
-                        new { CustomerId = 1, BillingAddress = "123 Mainstreet", Name = "Customer 123" },
-                        new { CustomerId = 2, BillingAddress = "456 Mainstreet", Name = "Customer 456" }
-                    );
                 });
 
             modelBuilder.Entity("GraphQLDotNet.Models.Item", b =>
@@ -74,11 +71,6 @@ namespace GraphQLDotNet.Data.Migrations
                     b.HasIndex("CustomerId");
 
                     b.ToTable("Orders");
-
-                    b.HasData(
-                        new { OrderId = 1, CreatedAt = new DateTime(2018, 9, 15, 6, 57, 39, 325, DateTimeKind.Local).AddTicks(3082), CustomerId = 1, Tag = "ORD-123" },
-                        new { OrderId = 2, CreatedAt = new DateTime(2018, 9, 15, 6, 57, 39, 327, DateTimeKind.Local).AddTicks(1503), CustomerId = 2, Tag = "ORD-456" }
-                    );
                 });
 
             modelBuilder.Entity("GraphQLDotNet.Models.Order", b =>

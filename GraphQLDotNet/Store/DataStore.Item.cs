@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GraphQLDotNet.Store
 {
-    public class DataStore : IDataStore
+    public partial class DataStore : IDataStore
     {
         private readonly ApplicationDbContext _applicationDbContext;
 

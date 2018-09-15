@@ -1,6 +1,8 @@
 ﻿using GraphQL.Types;
+using GraphQLDotNet.Models;
 using GraphQLDotNet.Store;
 using GraphQLDotNet.Types;
+using System.Collections.Generic;
 
 namespace GraphQLDotNet
 {
@@ -20,6 +22,14 @@ namespace GraphQLDotNet
             Field<ListGraphType<ItemType>>(
                 "items",
                 resolve: context => dataStore.GetItems());
+
+            Field<ListGraphType<OrderType>, IEnumerable<Order>>()
+                .Name("Orders")
+                .ResolveAsync(ctx => dataStore.GetOrdersAsync());
+
+            Field<ListGraphType<CustomerType>, IEnumerable<Customer>>()
+                .Name("Customers")
+                .ResolveAsync(ctx => dataStore.GetCustomersAsync());
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using GraphQLDotNet.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 
 namespace GraphQLDotNet.Data
@@ -10,6 +11,8 @@ namespace GraphQLDotNet.Data
             : base(options) { }
 
         public DbSet<Item> Items { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Customer> Customers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,6 +30,28 @@ namespace GraphQLDotNet.Data
                 };
 
                 entity.HasData(items.ToArray());
+            });
+
+            modelBuilder.Entity<Customer>(entity =>
+            {
+                var customers = new List<Customer>
+                {
+                    new Customer { CustomerId = 1, Name = "Customer 123", BillingAddress = "123 Mainstreet" },
+                    new Customer { CustomerId = 2, Name = "Customer 456", BillingAddress = "456 Mainstreet" }
+                };
+
+                entity.HasData(customers.ToArray());
+            });
+
+            modelBuilder.Entity<Order>(entity =>
+            {
+                var orders = new List<Order>
+                {
+                    new Order { OrderId = 1, Tag = "ORD-123", CreatedAt = DateTime.Now, CustomerId = 1 },
+                    new Order { OrderId = 2, Tag = "ORD-456", CreatedAt = DateTime.Now, CustomerId = 2 }
+                };
+
+                entity.HasData(orders.ToArray());
             });
         }
     }
