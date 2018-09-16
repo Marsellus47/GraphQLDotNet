@@ -1,5 +1,6 @@
 ﻿using GraphQLDotNet.Data;
 using GraphQLDotNet.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,6 +29,11 @@ namespace GraphQLDotNet.Store
         public IEnumerable<Item> GetItems()
         {
             return _applicationDbContext.Items;
+        }
+
+        public async Task<IEnumerable<Item>> GetItemsAsync()
+        {
+            return await _applicationDbContext.Items.ToListAsync();
         }
 
         public async Task<Item> AddItemAsync(Item item)

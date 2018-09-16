@@ -1,6 +1,8 @@
 ﻿using GraphQLDotNet.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GraphQLDotNet.Store
@@ -22,6 +24,13 @@ namespace GraphQLDotNet.Store
             var addedCustomer = await _applicationDbContext.Customers.AddAsync(customer);
             await _applicationDbContext.SaveChangesAsync();
             return addedCustomer.Entity;
+        }
+
+        public async Task<IDictionary<int, Customer>> GetCustomersByIdAsync(IEnumerable<int> customerIds, CancellationToken token)
+        {
+            return await _applicationDbContext.Customers
+                .Where(c => customerIds.Contains(c.CustomerId))
+                .ToDictionaryAsync(c => c.CustomerId);
         }
     }
 }

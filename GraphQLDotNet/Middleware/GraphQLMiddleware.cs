@@ -6,6 +6,8 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Threading.Tasks;
 using System;
+using Microsoft.Extensions.DependencyInjection;
+using GraphQL.DataLoader;
 
 namespace GraphQLDotNet.Middleware
 {
@@ -25,7 +27,7 @@ namespace GraphQLDotNet.Middleware
             _executor = executor;
         }
 
-        public async Task InvokeAsync(HttpContext httpContext, ISchema schema)
+        public async Task InvokeAsync(HttpContext httpContext, ISchema schema, IServiceProvider serviceProvider)
         {
             if (httpContext.Request.Path.StartsWithSegments("/api/graphql")
                 && string.Equals(httpContext.Request.Method, "POST", StringComparison.OrdinalIgnoreCase))
@@ -41,6 +43,7 @@ namespace GraphQLDotNet.Middleware
                         doc.Schema = schema;
                         doc.Query = request.Query;
                         doc.Inputs = request.Variables.ToInputs();
+                        doc.Listeners.Add(serviceProvider.GetRequiredService<DataLoaderDocumentListener>());
                     }).ConfigureAwait(false);
 
                     var json = _writer.Write(result);

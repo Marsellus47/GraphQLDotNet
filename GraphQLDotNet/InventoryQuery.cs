@@ -1,4 +1,5 @@
-﻿using GraphQL.Types;
+﻿using GraphQL.DataLoader;
+using GraphQL.Types;
 using GraphQLDotNet.Models;
 using GraphQLDotNet.Store;
 using GraphQLDotNet.Types;
@@ -8,7 +9,7 @@ namespace GraphQLDotNet
 {
     public class InventoryQuery : ObjectGraphType
     {
-        public InventoryQuery(IDataStore dataStore)
+        public InventoryQuery(IDataStore dataStore, IDataLoaderContextAccessor accessor)
         {
             Field<ItemType>(
                 "item",
@@ -19,9 +20,13 @@ namespace GraphQLDotNet
                     return dataStore.GetItemByBarcode(barcode);
                 });
 
-            Field<ListGraphType<ItemType>>(
-                "items",
-                resolve: context => dataStore.GetItems());
+            Field<ListGraphType<ItemType>, IEnumerable<Item>>()
+                .Name("Items")
+                .ResolveAsync(ctx =>
+                {
+                    var loader = accessor.Context.GetOrAddLoader("GetAllItems", () => dataStore.GetItemsAsync());
+                    return loader.LoadAsync();
+                });
 
             Field<ListGraphType<OrderType>, IEnumerable<Order>>()
                 .Name("Orders")

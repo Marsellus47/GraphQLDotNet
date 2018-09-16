@@ -29,5 +29,13 @@ namespace GraphQLDotNet.Store
         {
             return await _applicationDbContext.Orders.FindAsync(orderId);
         }
+
+        public async Task<ILookup<int, Order>> GetOrdersByCustomerIdAsync(IEnumerable<int> customerIds)
+        {
+            var orders = await _applicationDbContext.Orders
+                .Where(o => customerIds.Contains(o.CustomerId))
+                .ToListAsync();
+            return orders.ToLookup(o => o.CustomerId);
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using GraphQL;
+using GraphQL.DataLoader;
 using GraphQL.Http;
 using GraphQL.Types;
 using GraphQLDotNet.Data;
@@ -44,12 +45,14 @@ namespace GraphQLDotNet
 
             services.AddSingleton<IDocumentWriter, DocumentWriter>();
             services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
+            services.AddSingleton<IDataLoaderContextAccessor, DataLoaderContextAccessor>();
+            services.AddSingleton<DataLoaderDocumentListener>();
+
+            services.AddScoped<IDataStore, DataStore>();
 
             services.AddScoped<InventoryQuery>();
             services.AddScoped<InventoryMutation>();
             services.AddScoped<ISchema, InventorySchema>();
-
-            services.AddScoped<IDataStore, DataStore>();
 
             services.AddScoped<ItemType>();
             services.AddScoped<ItemInputType>();
