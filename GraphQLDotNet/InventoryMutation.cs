@@ -20,6 +20,15 @@ namespace GraphQLDotNet
                     return dataStore.AddItemAsync(item);
                 }
             );
+
+            Field<OrderItemType, OrderItem>()
+                .Name("addOrderItem")
+                .Argument<NonNullGraphType<OrderItemInputType>>("orderitem", "orderitem input")
+                .ResolveAsync(ctx =>
+                {
+                    var orderItem = ctx.GetArgument<OrderItem>("orderitem");
+                    return dataStore.AddOrderItemAsync(orderItem);
+                });
         }
     }
 }

@@ -12,6 +12,7 @@ namespace GraphQLDotNet.Data
 
         public DbSet<Item> Items { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Customer> Customers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -52,6 +53,17 @@ namespace GraphQLDotNet.Data
                 };
 
                 entity.HasData(orders.ToArray());
+            });
+
+            modelBuilder.Entity<OrderItem>(entity =>
+            {
+                var orderItems = new List<OrderItem>
+                {
+                    new OrderItem { Id = 1, OrderId = 1, Barcode = "123", Quantity = 1 },
+                    new OrderItem { Id = 2, OrderId = 2, Barcode = "456", Quantity = 2 }
+                };
+
+                entity.HasData(orderItems.ToArray());
             });
         }
     }

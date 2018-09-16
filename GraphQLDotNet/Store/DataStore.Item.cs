@@ -15,6 +15,11 @@ namespace GraphQLDotNet.Store
             _applicationDbContext = applicationDbContext;
         }
 
+        public async Task<Item> GetItemByBarcodeAsync(string barcode)
+        {
+            return await _applicationDbContext.Items.FindAsync(barcode);
+        }
+
         public Item GetItemByBarcode(string barcode)
         {
             return _applicationDbContext.Items.FirstOrDefault(i => i.Barcode.Equals(barcode));

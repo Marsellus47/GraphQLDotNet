@@ -3,15 +3,17 @@ using System;
 using GraphQLDotNet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace GraphQLDotNet.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180916081046_ManyToManyRelationship")]
+    partial class ManyToManyRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,8 +78,8 @@ namespace GraphQLDotNet.Data.Migrations
                     b.ToTable("Orders");
 
                     b.HasData(
-                        new { OrderId = 1, CreatedAt = new DateTime(2018, 9, 16, 10, 36, 44, 952, DateTimeKind.Local).AddTicks(6359), CustomerId = 1, Tag = "ORD-123" },
-                        new { OrderId = 2, CreatedAt = new DateTime(2018, 9, 16, 10, 36, 44, 954, DateTimeKind.Local).AddTicks(3542), CustomerId = 2, Tag = "ORD-456" }
+                        new { OrderId = 1, CreatedAt = new DateTime(2018, 9, 16, 10, 10, 45, 905, DateTimeKind.Local).AddTicks(7855), CustomerId = 1, Tag = "ORD-123" },
+                        new { OrderId = 2, CreatedAt = new DateTime(2018, 9, 16, 10, 10, 45, 907, DateTimeKind.Local).AddTicks(4544), CustomerId = 2, Tag = "ORD-456" }
                     );
                 });
 
@@ -98,12 +100,7 @@ namespace GraphQLDotNet.Data.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItems");
-
-                    b.HasData(
-                        new { Id = 1, Barcode = "123", OrderId = 1, Quantity = 1 },
-                        new { Id = 2, Barcode = "456", OrderId = 2, Quantity = 2 }
-                    );
+                    b.ToTable("OrderItem");
                 });
 
             modelBuilder.Entity("GraphQLDotNet.Models.Order", b =>

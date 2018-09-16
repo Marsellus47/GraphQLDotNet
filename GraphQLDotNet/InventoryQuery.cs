@@ -30,6 +30,10 @@ namespace GraphQLDotNet
             Field<ListGraphType<CustomerType>, IEnumerable<Customer>>()
                 .Name("Customers")
                 .ResolveAsync(ctx => dataStore.GetCustomersAsync());
+
+            Field<ListGraphType<OrderItemType>, IEnumerable<OrderItem>>()
+                .Name("OrderItems")
+                .ResolveAsync(ctx => dataStore.GetOrderItemsAsync());
         }
     }
 }

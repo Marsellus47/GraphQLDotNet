@@ -24,5 +24,10 @@ namespace GraphQLDotNet.Store
             await _applicationDbContext.SaveChangesAsync();
             return addedOrder.Entity;
         }
+
+        public async Task<Order> GetOrderByIdAsync(int orderId)
+        {
+            return await _applicationDbContext.Orders.FindAsync(orderId);
+        }
     }
 }
